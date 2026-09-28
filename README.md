@@ -19,14 +19,14 @@ the same checkpointing and interrupt semantics hold in LangGraph.js too.
 
 ## What's here
 
-| | |
-|---|---|
-| Graph | `draft → critique → (retry loop, bounded) → approvalGate` — a real `StateGraph`, not a chain, with one cycle |
-| Checkpointing | `PostgresSaver` when `DATABASE_URL` is a real Postgres URL, `MemorySaver` otherwise — same fallback rule as the Python repo's `checkpointer.py` |
-| Human-in-the-loop | A genuine `interrupt()` pause in `approvalGateNode`, not a UI banner, whenever the drafted answer quotes a `£`/`$` figure and the caller opted in (`requireApproval: true`) |
-| Resume safety | `resumeApproval()` checks the checkpoint for a real pending interrupt before resuming — throws a clear error for "never existed" and "already resolved" alike, same fix as the Python repo's `resume_approval()` |
-| Retrieval | Deliberately naive keyword overlap over a 4-fact in-memory corpus (`src/knowledgeBase.ts`) — the point of this repo is the graph shape, not a second vector index |
-| Drafting | Real Anthropic call when `ANTHROPIC_API_KEY` is set; a deterministic offline draft otherwise, so the graph, retries, and tests all run with zero setup |
+|                   |                                                                                                                                                                                                                  |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Graph             | `draft → critique → (retry loop, bounded) → approvalGate` — a real `StateGraph`, not a chain, with one cycle                                                                                                     |
+| Checkpointing     | `PostgresSaver` when `DATABASE_URL` is a real Postgres URL, `MemorySaver` otherwise — same fallback rule as the Python repo's `checkpointer.py`                                                                  |
+| Human-in-the-loop | A genuine `interrupt()` pause in `approvalGateNode`, not a UI banner, whenever the drafted answer quotes a `£`/`$` figure and the caller opted in (`requireApproval: true`)                                      |
+| Resume safety     | `resumeApproval()` checks the checkpoint for a real pending interrupt before resuming — throws a clear error for "never existed" and "already resolved" alike, same fix as the Python repo's `resume_approval()` |
+| Retrieval         | Deliberately naive keyword overlap over a 4-fact in-memory corpus (`src/knowledgeBase.ts`) — the point of this repo is the graph shape, not a second vector index                                                |
+| Drafting          | Real Anthropic call when `ANTHROPIC_API_KEY` is set; a deterministic offline draft otherwise, so the graph, retries, and tests all run with zero setup                                                           |
 
 ## Proven, not claimed
 

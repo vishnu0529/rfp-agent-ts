@@ -63,7 +63,9 @@ run1.on("exit", (code, signal) => {
 
   run2.on("exit", (resumeCode) => {
     const draftCallsAfterResume = countLines(counterFile);
-    console.log(`\n[orchestrator] draftNode has run ${draftCallsAfterResume} time(s) total (was ${draftCallsBeforeResume} before resume)`);
+    console.log(
+      `\n[orchestrator] draftNode has run ${draftCallsAfterResume} time(s) total (was ${draftCallsBeforeResume} before resume)`,
+    );
 
     const draftWasNotRerun = draftCallsAfterResume === draftCallsBeforeResume;
     console.log(

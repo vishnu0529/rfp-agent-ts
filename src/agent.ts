@@ -55,11 +55,14 @@ function approvalGateNode(state: RfpState): Partial<RfpState> {
   if (!state.requireApproval || !state.answer || !COMMERCIAL_FIGURE.test(state.answer)) {
     return { approvalStatus: "not_required" };
   }
-  const decision = interrupt({
+  const decision = interrupt<
+    { reason: string; question: string; draftAnswer: string },
+    { approved: boolean }
+  >({
     reason: "Answer quotes a commercial figure and needs bid-director sign-off.",
     question: state.question,
     draftAnswer: state.answer,
-  }) as { approved: boolean };
+  });
   // A rejection means the figure genuinely doesn't get released — clearing
   // `answer` here, not just flagging it, is the difference this gate exists for.
   if (!decision.approved) {
@@ -109,7 +112,10 @@ export interface AnswerResult {
   approvalStatus: RfpState["approvalStatus"];
 }
 
-async function buildResult(threadId: string, config: { configurable: { thread_id: string } }): Promise<AnswerResult> {
+async function buildResult(
+  threadId: string,
+  config: { configurable: { thread_id: string } },
+): Promise<AnswerResult> {
   const graph = await getGraph();
   const snapshot = await graph.getState(config);
   const pendingApproval = snapshot.tasks.some((t) => t.interrupts.length > 0);

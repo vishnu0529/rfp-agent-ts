@@ -27,10 +27,9 @@ describe("answerQuestion", () => {
   });
 
   it("pauses at the approval gate when the answer quotes a commercial figure", async () => {
-    const result = await answerQuestion(
-      "What is Aldermere's professional indemnity insurance cover?",
-      { requireApproval: true },
-    );
+    const result = await answerQuestion("What is Aldermere's professional indemnity insurance cover?", {
+      requireApproval: true,
+    });
     expect(result.pendingApproval).toBe(true);
     expect(result.approvalStatus).toBe("pending");
     expect(result.answer).toBeNull(); // nothing is released while paused
@@ -48,10 +47,9 @@ describe("answerQuestion", () => {
 
 describe("resumeApproval", () => {
   it("releases the answer once approved", async () => {
-    const paused = await answerQuestion(
-      "What is Aldermere's professional indemnity insurance cover?",
-      { requireApproval: true },
-    );
+    const paused = await answerQuestion("What is Aldermere's professional indemnity insurance cover?", {
+      requireApproval: true,
+    });
     expect(paused.pendingApproval).toBe(true);
 
     const resumed = await resumeApproval(paused.threadId, true);
@@ -61,10 +59,9 @@ describe("resumeApproval", () => {
   });
 
   it("withholds the answer permanently once rejected", async () => {
-    const paused = await answerQuestion(
-      "What is Aldermere's professional indemnity insurance cover?",
-      { requireApproval: true },
-    );
+    const paused = await answerQuestion("What is Aldermere's professional indemnity insurance cover?", {
+      requireApproval: true,
+    });
 
     const resumed = await resumeApproval(paused.threadId, false);
     expect(resumed.pendingApproval).toBe(false);

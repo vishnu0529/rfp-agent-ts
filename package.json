@@ -3,11 +3,21 @@
   "version": "0.1.0",
   "description": "A small LangGraph.js agent proving durable Postgres checkpointing and a genuine interrupt() human-in-the-loop gate in TypeScript — the TS/Node counterpart to enterprise-rag-assistant.",
   "license": "MIT",
+  "author": "Vishnu Kanth Suryanarayan",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vishnu0529/rfp-agent-ts.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "private": true,
   "type": "module",
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
+    "lint": "eslint .",
+    "format:check": "prettier --check .",
     "demo:kill-and-resume": "tsx scripts/demo-kill-and-resume.ts"
   },
   "dependencies": {
@@ -19,10 +29,14 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@types/node": "^22.18.9",
     "@types/pg": "^8.15.6",
+    "eslint": "^9.39.5",
+    "prettier": "^3.6.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2",
     "vitest": "^4.1.11"
   }
 }
