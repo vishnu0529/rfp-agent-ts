@@ -1,0 +1,28 @@
+{
+  "name": "rfp-agent-ts",
+  "version": "0.1.0",
+  "description": "A small LangGraph.js agent proving durable Postgres checkpointing and a genuine interrupt() human-in-the-loop gate in TypeScript — the TS/Node counterpart to enterprise-rag-assistant.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "demo:kill-and-resume": "tsx scripts/demo-kill-and-resume.ts"
+  },
+  "dependencies": {
+    "@langchain/anthropic": "^1.5.11",
+    "@langchain/core": "^1.2.13",
+    "@langchain/langgraph": "^1.4.18",
+    "@langchain/langgraph-checkpoint-postgres": "^1.0.5",
+    "pg": "^8.16.3",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.18.9",
+    "@types/pg": "^8.15.6",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
+  }
+}
