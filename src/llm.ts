@@ -11,7 +11,7 @@ const NO_CONTEXT_ANSWER =
 
 // Real Anthropic call when a key is present (same honesty pattern as the
 // Python sibling: don't fabricate a "live" number when the key is
-// quota-limited or absent — say so and fall back to a deterministic,
+// quota-limited or absent, say so and fall back to a deterministic,
 // still-correctly-cited draft instead of a canned string pretending to be one).
 export async function draftAnswer(question: string, context: KnowledgeChunk[]): Promise<DraftResult> {
   if (context.length === 0) {
@@ -34,7 +34,7 @@ export async function draftAnswer(question: string, context: KnowledgeChunk[]): 
     return { text, citedChunkId: cited?.id ?? null };
   }
 
-  // No key configured — deterministic draft so the graph, retries and tests
+  // No key configured, so we use a deterministic draft. The graph, retries and tests
   // are fully exercisable offline, same reasoning as the Python repo's
   // quota-limited note in docs/EVALUATION.md.
   const top = context[0];

@@ -1,6 +1,6 @@
 import { Annotation } from "@langchain/langgraph";
 
-// Deliberately flat and small — this repo exists to prove the checkpointing
+// Deliberately flat and small. This repo exists to prove the checkpointing
 // + interrupt() pattern in LangGraph.js, not to re-implement the Python
 // sibling's full corrective-RAG state machine.
 export const RfpAgentState = Annotation.Root({
@@ -16,7 +16,7 @@ export const RfpAgentState = Annotation.Root({
     default: () => "not_required",
   }),
   // Transient routing decision written by critiqueNode and read by the
-  // conditional edge straight after it — not meaningful outside that one hop.
+  // conditional edge straight after it, and not meaningful outside that one hop.
   needsRetry: Annotation<boolean>({ reducer: (_prev, next) => next, default: () => false }),
 });
 

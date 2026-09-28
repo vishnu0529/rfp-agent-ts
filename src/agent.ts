@@ -8,7 +8,7 @@ import { draftAnswer } from "./llm.js";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Same £/$ commercial-figure trigger as the Python sibling's approval_gate_node —
+// Same £/$ commercial-figure trigger as the Python sibling's approval_gate_node:
 // a real irreversible action (releasing a number a client could hold you to),
 // not a manufactured one.
 const COMMERCIAL_FIGURE = /[£$]\s?[\d,]+(?:\.\d+)?/;
@@ -31,9 +31,9 @@ async function draftNode(state: RfpState): Promise<Partial<RfpState>> {
 
 // Bounded draft -> critique -> retry cycle: the one required "cycle" in the
 // graph, same shape as the Python repo's critique_node, just without a
-// separate faithfulness-score LLM call — citation presence is the gate here.
+// separate faithfulness-score LLM call. Citation presence is the gate here.
 async function critiqueNode(state: RfpState): Promise<Partial<RfpState>> {
-  // Demo-only hooks, same rationale as draftNode above — give the kill-and-
+  // Demo-only hooks, same rationale as draftNode above: give the kill-and-
   // resume orchestrator a window to SIGKILL the process mid-critique, after
   // draft's checkpoint has already been committed.
   if (process.env.DEMO_CRITIQUE_MARKER_FILE) {
@@ -48,7 +48,7 @@ async function critiqueNode(state: RfpState): Promise<Partial<RfpState>> {
   return { needsRetry: false };
 }
 
-// Genuine interrupt() pause, not a UI banner — mirrors approval_gate_node in
+// Genuine interrupt() pause, not a UI banner. Mirrors approval_gate_node in
 // app/services/rag_graph.py exactly: opt-in via requireApproval, only fires
 // when the drafted answer actually quotes a commercial figure.
 function approvalGateNode(state: RfpState): Partial<RfpState> {
@@ -63,7 +63,7 @@ function approvalGateNode(state: RfpState): Partial<RfpState> {
     question: state.question,
     draftAnswer: state.answer,
   });
-  // A rejection means the figure genuinely doesn't get released — clearing
+  // A rejection means the figure genuinely doesn't get released. Clearing
   // `answer` here, not just flagging it, is the difference this gate exists for.
   if (!decision.approved) {
     return { approvalStatus: "rejected", answer: null };
@@ -97,7 +97,7 @@ async function getGraph() {
 // Exposed for scripts/demo-kill-and-resume.ts only: recovering from a genuine
 // process crash means invoking with `null` input on the same thread_id, so
 // LangGraph continues from the last committed checkpoint instead of
-// restarting at START — answerQuestion() always starts at START on purpose,
+// restarting at START, because answerQuestion() always starts at START on purpose,
 // so it can't be reused for this case.
 export async function getGraphForCrashRecovery() {
   return getGraph();

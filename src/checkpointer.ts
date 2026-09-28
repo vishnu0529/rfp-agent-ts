@@ -4,7 +4,7 @@ import type { BaseCheckpointSaver } from "@langchain/langgraph-checkpoint";
 
 // Mirrors app/services/checkpointer.py in the Python sibling repo exactly:
 // Postgres when a real DATABASE_URL is configured, in-memory otherwise.
-// Same local Postgres instance used to verify that project's checkpointing —
+// Same local Postgres instance used to verify that project's checkpointing;
 // this repo's demo script points at a separate database on it.
 let cached: BaseCheckpointSaver | null = null;
 

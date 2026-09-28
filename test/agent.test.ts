@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { answerQuestion, resumeApproval } from "../src/agent.js";
 
-// No ANTHROPIC_API_KEY in the test environment on purpose — every test below
+// No ANTHROPIC_API_KEY in the test environment on purpose. Every test below
 // exercises the real graph (retrieval, retry routing, checkpointing,
 // interrupt/resume) against the deterministic offline draft path in llm.ts,
 // not a mock of the graph itself.

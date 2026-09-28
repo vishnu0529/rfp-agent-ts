@@ -1,4 +1,4 @@
-// Tiny fictional corpus so the graph has something real to retrieve from —
+// Tiny fictional corpus so the graph has something real to retrieve from,
 // same fictional client (Aldermere) as the Python sibling project, deliberately,
 // so the two repos read as one consistent case study rather than two demos.
 export interface KnowledgeChunk {
@@ -37,7 +37,7 @@ function keywords(text: string): Set<string> {
   );
 }
 
-// Naive keyword overlap "retrieval" — the point of this repo is the graph
+// Naive keyword overlap "retrieval". The point of this repo is the graph
 // shape (checkpointing + interrupt), not a vector index; a real deployment
 // would swap this for the same pgvector store the Python sibling uses.
 export function retrieve(question: string, topK = 2): KnowledgeChunk[] {

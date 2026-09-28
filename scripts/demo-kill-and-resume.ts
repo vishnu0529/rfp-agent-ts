@@ -21,7 +21,7 @@ function countLines(url: URL): number {
 }
 
 console.log(`[orchestrator] thread_id = ${threadId}`);
-console.log("[orchestrator] starting run 1 — will SIGKILL it once critique has started\n");
+console.log("[orchestrator] starting run 1, will SIGKILL it once critique has started\n");
 
 const run1 = spawn("npx", ["tsx", "scripts/demo-runner.ts", threadId, "run"], {
   env: {
@@ -39,22 +39,22 @@ const poll = setInterval(() => {
   if (killed || !existsSync(markerFile)) return;
   killed = true;
   clearInterval(poll);
-  console.log("\n[orchestrator] critique node has started — draft's checkpoint is already committed.");
+  console.log("\n[orchestrator] critique node has started. Draft's checkpoint is already committed.");
   console.log("[orchestrator] sending SIGKILL now.\n");
   run1.kill("SIGKILL");
 }, 100);
 
 run1.on("exit", (code, signal) => {
   clearInterval(poll);
-  console.log(`\n[orchestrator] run 1 exited — code=${code} signal=${signal}`);
+  console.log(`\n[orchestrator] run 1 exited: code=${code} signal=${signal}`);
   if (signal !== "SIGKILL") {
-    console.error("[orchestrator] run 1 did not die by SIGKILL — demo is invalid, aborting.");
+    console.error("[orchestrator] run 1 did not die by SIGKILL. Demo is invalid, aborting.");
     process.exit(1);
   }
 
   const draftCallsBeforeResume = countLines(counterFile);
   console.log(`[orchestrator] draftNode ran ${draftCallsBeforeResume} time(s) before the kill`);
-  console.log("\n[orchestrator] starting run 2 (fresh process) — resuming from the Postgres checkpoint\n");
+  console.log("\n[orchestrator] starting run 2 (fresh process), resuming from the Postgres checkpoint\n");
 
   const run2 = spawn("npx", ["tsx", "scripts/demo-runner.ts", threadId, "resume"], {
     env: { ...process.env, DATABASE_URL, DEMO_DRAFT_COUNTER_FILE: counterFile.pathname },
@@ -70,8 +70,8 @@ run1.on("exit", (code, signal) => {
     const draftWasNotRerun = draftCallsAfterResume === draftCallsBeforeResume;
     console.log(
       draftWasNotRerun
-        ? "[orchestrator] draft was NOT re-run — the resumed process continued from the committed checkpoint."
-        : "[orchestrator] draft WAS re-run — checkpointing did not hold as expected.",
+        ? "[orchestrator] draft was NOT re-run. The resumed process continued from the committed checkpoint."
+        : "[orchestrator] draft WAS re-run. Checkpointing did not hold as expected.",
     );
     process.exit(resumeCode === 0 && draftWasNotRerun ? 0 : 1);
   });

@@ -1,5 +1,5 @@
 // Child process entrypoint for demo-kill-and-resume.ts. Not part of the
-// public API — invoked directly by the orchestrator via `tsx`.
+// public API, invoked directly by the orchestrator via `tsx`.
 import { answerQuestion, getGraphForCrashRecovery } from "../src/agent.js";
 
 const [, , threadId, mode] = process.argv;
